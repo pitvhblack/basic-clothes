@@ -1,0 +1,30 @@
+.sign-up-container {
+	display: flex;
+	flex-direction: column;
+	width: 33%;
+    justify-content: center;
+
+    .button-holder {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+	h2 {
+		margin: 20px 0;
+    }
+
+	.error-holder {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        
+		.error {
+			background-color: #c41b1b;
+			color: #fff;
+			padding: 8px;
+			border-radius: 8px;
+			display: block;
+		}
+	}
+}

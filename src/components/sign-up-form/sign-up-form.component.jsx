@@ -3,6 +3,9 @@ import {
 	createAuthUserWithEmailAndPassword,
 	createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
+import FormInput from "../form-input/form-input.component";
+import "./sign-up-form.styles.scss";
+import Button from "../button/button.component";
 
 const defaultFormFields = {
 	displayName: "",
@@ -35,14 +38,14 @@ const SignUpForm = () => {
 					email,
 					password
 				);
-                
-                await createUserDocumentFromAuth(userRef.user, {
-                    displayName,
-                });
 
-                alert("User created successfully!");
-                setError("");
-                resetFormFields();
+				await createUserDocumentFromAuth(userRef.user, {
+					displayName,
+				});
+
+				alert("User created successfully!");
+				setError("");
+				resetFormFields();
 			} catch (err) {
 				setError(err.message);
 			}
@@ -52,60 +55,54 @@ const SignUpForm = () => {
 	};
 
 	return (
-		<div>
-			<h1>Sign up with your email and password</h1>
+		<div className="sign-up-container">
+			<h2>Don't have an account?</h2>
+			<span>Sign up with email and password</span>
 
 			<form onSubmit={handleSubmit}>
-				<div>
-					<label>Display name</label>
-					<input
-						type="text"
-						required
-						onChange={handleChange}
-						name="displayName"
-						value={displayName}
-					/>
+				<FormInput
+					label="Display name"
+					type="text"
+					required
+					onChange={handleChange}
+					name="displayName"
+					value={displayName}
+				/>
+
+				<FormInput
+					label="Email"
+					type="email"
+					required
+					onChange={handleChange}
+					name="email"
+					value={email}
+				/>
+
+				<FormInput
+					label="Password"
+					type="password"
+					required
+					onChange={handleChange}
+					name="password"
+					value={password}
+				/>
+
+				<FormInput
+					label="Confirm password"
+					type="password"
+					required
+					onChange={handleChange}
+					name="confirmPassword"
+					value={confirmPassword}
+				/>
+
+				<div className="error-holder">
+					{error && <span className="error">{error}</span>}
 				</div>
 
-				<div>
-					<label>Email</label>
-					<input
-						type="email"
-						required
-						onChange={handleChange}
-						name="email"
-						value={email}
-					/>
-				</div>
-
-				<div>
-					<label>Password</label>
-					<input
-						type="password"
-						required
-						onChange={handleChange}
-						name="password"
-						value={password}
-					/>
-				</div>
-
-				<div>
-					<label>Confirm password</label>
-					<input
-						type="password"
-						required
-						onChange={handleChange}
-						name="confirmPassword"
-						value={confirmPassword}
-					/>
-				</div>
-
-				<div>
-					<span style={{ color: "red" }}>{error}</span>
-				</div>
-
-				<div>
-					<button type="submit">Sign up!</button>
+				<div className="button-holder">
+					<Button type="submit">Sign up</Button>
+					<Button type="submit" buttonType="GOOGLE">Sign up with google</Button>
 				</div>
 			</form>
 		</div>
