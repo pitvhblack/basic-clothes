@@ -34,16 +34,14 @@ const SignUpForm = () => {
 
 		if (password === confirmPassword) {
 			try {
-				const userRef = await createAuthUserWithEmailAndPassword(
+				const { user } = await createAuthUserWithEmailAndPassword(
 					email,
 					password
 				);
 
-				await createUserDocumentFromAuth(userRef.user, {
+				await createUserDocumentFromAuth(user, {
 					displayName,
 				});
-
-				alert("User created successfully!");
 				setError("");
 				resetFormFields();
 			} catch (err) {

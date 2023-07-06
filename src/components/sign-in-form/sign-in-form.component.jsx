@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
 	signWithGooglePopup,
-	createUserDocumentFromAuth,
 	signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
@@ -29,11 +28,9 @@ const SignInForm = () => {
 
 	const signInWithGoogle = async () => {
 		try {
-			const { user } = await signWithGooglePopup();
-			const userDocRef = await createUserDocumentFromAuth(user);
-			alert("logged successfully!");
+			await signWithGooglePopup();
 		} catch (err) {
-			if (err.code == "auth/popup-closed-by-user") {
+			if (err.code === "auth/popup-closed-by-user") {
 				setError("Popup closed :L");
 			}
 		}
@@ -44,12 +41,9 @@ const SignInForm = () => {
 		event.preventDefault();
 
 		try {
-			const res = await signInAuthUserWithEmailAndPassword(
-				email,
-				password
-			);
+			await signInAuthUserWithEmailAndPassword(email, password);
 			resetFormFields();
-			alert("logged successfully!");
+			setError("");
 		} catch (error) {
 			switch (error.code) {
 				case "auth/wrong-password":
