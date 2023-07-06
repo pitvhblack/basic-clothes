@@ -1,23 +1,21 @@
 import { useState } from "react";
 import {
-	createAuthUserWithEmailAndPassword,
+	signWithGooglePopup,
 	createUserDocumentFromAuth,
+	signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
-import "./sign-up-form.styles.scss";
 import Button from "../button/button.component";
 
 const defaultFormFields = {
-	displayName: "",
 	email: "",
 	password: "",
-	confirmPassword: "",
 };
 
-const SignUpForm = () => {
+const SignInForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const [error, setError] = useState("");
-	const { displayName, email, password, confirmPassword } = formFields;
+	const { email, password } = formFields;
 
 	const resetFormFields = () => {
 		setFormFields(defaultFormFields);
@@ -29,46 +27,49 @@ const SignUpForm = () => {
 		setFormFields({ ...formFields, [name]: value });
 	};
 
+	const signInWithGoogle = async () => {
+		try {
+			const { user } = await signWithGooglePopup();
+			const userDocRef = await createUserDocumentFromAuth(user);
+			alert("logged successfully!");
+		} catch (err) {
+			if (err.code == "auth/popup-closed-by-user") {
+				setError("Popup closed :L");
+			}
+		}
+		resetFormFields();
+	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		if (password === confirmPassword) {
-			try {
-				const userRef = await createAuthUserWithEmailAndPassword(
-					email,
-					password
-				);
-
-				await createUserDocumentFromAuth(userRef.user, {
-					displayName,
-				});
-
-				alert("User created successfully!");
-				setError("");
-				resetFormFields();
-			} catch (err) {
-				setError(err.message);
+		try {
+			const res = await signInAuthUserWithEmailAndPassword(
+				email,
+				password
+			);
+			resetFormFields();
+			alert("logged successfully!");
+		} catch (error) {
+			switch (error.code) {
+				case "auth/wrong-password":
+					setError("Incorrect password");
+					break;
+				case "auth/user-not-found":
+					setError("No user associated with this email");
+					break;
+				default:
+					setError("Something went wrong");
 			}
-		} else {
-			setError("Passwords must be the same!");
 		}
 	};
 
 	return (
 		<div className="sign-up-container">
-			<h2>Don't have an account?</h2>
-			<span>Sign up with email and password</span>
+			<h2>Sign In</h2>
+			<span>Sign in with either Google or email and password</span>
 
 			<form onSubmit={handleSubmit}>
-				<FormInput
-					label="Display name"
-					type="text"
-					required
-					onChange={handleChange}
-					name="displayName"
-					value={displayName}
-				/>
-
 				<FormInput
 					label="Email"
 					type="email"
@@ -87,25 +88,24 @@ const SignUpForm = () => {
 					value={password}
 				/>
 
-				<FormInput
-					label="Confirm password"
-					type="password"
-					required
-					onChange={handleChange}
-					name="confirmPassword"
-					value={confirmPassword}
-				/>
-
 				<div className="error-holder">
 					{error && <span className="error">{error}</span>}
 				</div>
 
 				<div className="button-holder">
-					<Button type="submit">Sign up</Button>
+					<Button type="submit">Sign in</Button>
+
+					<Button
+						type="button"
+						buttonType="GOOGLE"
+						onClick={signInWithGoogle}
+					>
+						Sign in with Google
+					</Button>
 				</div>
 			</form>
 		</div>
 	);
 };
 
-export default SignUpForm;
+export default SignInForm;
