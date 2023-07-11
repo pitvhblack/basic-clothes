@@ -1,0 +1,23 @@
+.checkout-list {
+    padding: 0 8%;
+
+    .total-price {
+        width: 100%;
+        text-align: end;
+    }
+    
+	.checkout-description {
+		display: flex;
+		border-bottom: 2px solid rgb(70, 70, 70);
+		margin-bottom: 24px;
+
+		h3 {
+			flex: 1;
+			padding: 16px 0;
+
+			&:last-child {
+				flex: 0.2;
+			}
+		}
+	}
+}

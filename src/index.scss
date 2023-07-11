@@ -9,6 +9,7 @@ body {
 	background-color: #8ec5fc;
 	background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
     padding: 8px 8%;
+    min-height: 100vh;
 }
 
 code {
@@ -19,6 +20,10 @@ code {
 a {
     text-decoration: none;
     color: black;
+}
+
+img {
+    border-radius: 8px;
 }
 
 ::-webkit-scrollbar {
