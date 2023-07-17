@@ -1,7 +1,10 @@
-.product-container {
+h1 {
+    margin-bottom: 32px;
+}
+
+.category-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 20px;
-    row-gap: 50px;
-    margin-bottom: 100px;
+    row-gap: 20px;
 }

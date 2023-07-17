@@ -1,4 +1,4 @@
-.cart-item-container {
+.cartItemContainer {
     width: 95%;
     margin-bottom: 16px;
     display: flex;
@@ -14,14 +14,13 @@
 
     &:hover {
         border-bottom: 2px solid rgb(70, 70, 70);
-        cursor: pointer;
     }
 
-    &:hover .cart-item-info {
+    &:hover .cartItemInfo {
         padding-right: 20px;
     }
 
-    .cart-item-info {
+    .cartItemInfo {
         width: 70%;
         padding-left: 8px;
         padding-right: 16px;

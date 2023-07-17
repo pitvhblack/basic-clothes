@@ -6,7 +6,7 @@ import { CartContext } from "../../context/cart-dropdown.context";
 import { useNavigate } from "react-router-dom";
 
 const CartDropdown = () => {
-	const { cartItems } = useContext(CartContext);
+	const { cartItems, setVisible } = useContext(CartContext);
     const navigate = useNavigate();
 
     const goToCheckoutHandler = () => {
@@ -25,7 +25,7 @@ const CartDropdown = () => {
 				</div>
 			)}
 
-			<Button onClick={goToCheckoutHandler}>Go to checkout</Button>
+			<Button onClick={() => {goToCheckoutHandler(); setVisible() }}>Go to checkout</Button>
 		</div>
 	);
 };
